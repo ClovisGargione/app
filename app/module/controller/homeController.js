@@ -66,7 +66,6 @@ define([], function () {
             var url = "http://api.apixu.com/v1/forecast.json?key=c179072c88db484eb2f20135172004&q="+ item.Nome + "&days=7&lang=pt";
             homeService.previsaoDoTempoPorCidade(url).
                 then(function(response){
-                    console.log(response.data);
                     vm.previsaoDoTempo = response.data;
                     vm.eDia = vm.previsaoDoTempo.current.is_day === 0 ? 'Noite' : 'Dia';
                     vm.previsaoDoTempo.forecast.forecastday.splice(0, 1);
