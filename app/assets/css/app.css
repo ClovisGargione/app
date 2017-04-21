@@ -1,0 +1,32 @@
+html,body{
+    height:100%;
+}
+body, .body{
+    margin: 30px;
+    margin-bottom: 50px;
+}
+
+.largura-maxima{
+    width: 100%;
+}
+
+.fonte-branca{
+    color: white;
+}
+
+.fonte-temperatura {
+    font-size: 5.9vw;
+    font-weight: 100;
+}
+
+.background{
+    background-image: url("https://estudokids.com.br/wp-content/uploads/2015/03/paisagem-geografia-historia-e-tipos.jpg");
+    background-size: cover;
+    height:100%;
+}
+
+.color-form{
+    background: rgba(255, 255, 255, 0.4);
+    height: 100%;
+}
+

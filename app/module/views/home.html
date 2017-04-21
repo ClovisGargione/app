@@ -1,0 +1,98 @@
+<div class="container-fluid">
+    <div class="panel panel-default color-form">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <select class="form-control" ng-change="vm.defineCidadesPorEstado(vm.idEstado)" ng-model="vm.idEstado" ng-options="estado.ID as (estado.Sigla + ' - ' + estado.Nome) for estado in vm.estados"></select>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" placeholder="Cidade" ng-model="vm.cidade" uib-typeahead="cidade as cidade.Nome for cidade in vm.cidadesPorEstado | filter:$viewValue" typeahead-on-select="vm.buscaPrevisaoDoTempo($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResults">
+                        <i class="glyphicon glyphicon-remove"></i> Sem resultados
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-default" type="button" uib-tooltip="Meu local favorito" ng-click="vm.defineFavorito()"><span class="glyphicon glyphicon-heart"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 class="fonte-branca">{{vm.previsaoDoTempo.location.name}}, {{vm.previsaoDoTempo.location.region}}</h2>
+    <div class="panel panel-default color-form">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <h4>{{vm.eDia}}, {{vm.previsaoDoTempo.current.condition.text}}</h4>
+                    <div style="background-image: url({{vm.previsaoDoTempo.current.condition.icon}}); background-repeat: no-repeat; vertical-align:middle; background-position: center; background-size: contain;">
+                        <label id="temperatura" class="fonte-temperatura largura-maxima text-center">{{vm.previsaoDoTempo.current.temp_c}}&ordm;</label>
+                    </div>
+                    <div><small>Humidade: {{vm.previsaoDoTempo.current.humidity}} %</small></div>
+                    <div><small>Velocidade do vento: {{vm.previsaoDoTempo.current.wind_kph}} Km/h</small></div>
+                </div>
+                <div class="col-md-10">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr class="text-center">
+                                <td ng-repeat="item in vm.previsaoDoTempo.forecast.forecastday" style="background-image: url({{item.day.condition.icon}}); background-repeat: no-repeat; vertical-align:middle; background-position: center; background-size: contain;">
+                                    <div>
+                                        <label>{{vm.diaDaSemana(item.date)}}</label>
+                                    </div>
+                                    <div>
+                                        <label>{{vm.formataData(item.date)}}</label>
+                                    </div>
+                                    <div>
+                                        <h4><i class="fa fa-arrow-up text-danger" aria-hidden="true"></i> {{item.day.maxtemp_c}}</h4>
+                                    </div>
+                                    <div>
+                                        <h4><i class="fa fa-arrow-down text-info" aria-hidden="true"></i> {{item.day.mintemp_c}}</h4>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default color-form">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="line" class="chart chart-line" chart-data="vm.temperaturasParaGrafico"
+                            chart-labels="vm.diasDaSemana" chart-series="vm.series" chart-options="vm.options"
+                            chart-dataset-override="vm.datasetOverride" >
+                    </canvas>
+                </div>
+                <div class="col-md-2 text-center">
+                    <div>
+                        <h4>{{vm.diaDaSemana(vm.maiorTemperatura.date)}}</h4>
+                    </div>
+                    <div>
+                        <h3><i class="fa fa-2x fa-arrow-up text-danger" aria-hidden="true"></i> {{vm.maiorTemperatura.day.maxtemp_c}}</h3>
+                    </div>
+                </div>
+                <div class="col-md-2 text-center">
+                    <div>
+                        <h4>{{vm.diaDaSemana(vm.menorTemperatura.date)}}</h4>
+                    </div>
+                    <div>
+                        <h3><i class="fa fa-2x fa-arrow-down text-info" aria-hidden="true"></i> {{vm.menorTemperatura.day.mintemp_c}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default color-form">
+        <div class="panel-body body">
+            <div ng-show="vm.previsaoDoTempo.current.temp_c >= 20" class="row">
+                <label>Por mais que algumas pessoas não gostem de calor, não dá pra negar que o verão é uma estação cheia de beleza. Sol, céu azul, noites quentes com aquele vento agradável, roupas confortáveis e muita alegria, são só algumas das várias coisas que essa época do ano nos traz de bom. Quando se fala em verão, a primeira imagem que vem à cabeça de quase todo mundo é de muita diversão. Isso porque no calor nos sentimos mais leves, animados e com vontade de fazer mil coisas para aproveitar a empolgação natural que vem junto com a estação.</label>
+            </div>
+            <div ng-show="vm.previsaoDoTempo.current.temp_c < 20" class="row">
+                <label>Aproveite a folguinha do fim de semana e fuja para algum lugar para curtir o inverno com tudo o que tem direito. Cidades como Campos do Jordão, Monte Verde, Gramado, Canela, Penedo e Petrópolis têm pousadas e hotéis aconchegantes para aproveitar o frio no melhor clima de montanha.</label>
+            </div>
+        </div>
+    </div>
+</div>
